@@ -1,35 +1,22 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react';
 
-function App() {
-  const [count, setCount] = useState(0)
-
+export default function App() {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div className='font-sans text-gray-900'>
+      {/* Navbar */}
+      <header className='flex justify-between items-center p-4 shadow-md bg-white'>
+        <h1 className='text-xl font-bold'>NewsLads.com</h1>
+        <nav>
+          <button className='p-2 bg-gray-100 rounded hover:bg-gray-200'>Home</button>
+        </nav>
+      </header>
 
-export default App
+      {/* Top Section */}
+      <section className='text-center py-16 bg-gray-50'>
+        <h2 className='text-4xl font-bold mb-4'>Welcome!</h2>
+        <p className='text-lg mb-6'>See what's new with NewsLads!</p>
+        <button className='bg-black text-white px-6 py-2 rounded hover:bg-gray-800'>Search</button>
+      </section>
+    </div>
+  );
+}
