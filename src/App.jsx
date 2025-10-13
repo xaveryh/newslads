@@ -6,6 +6,7 @@ import NewsSection from './components/NewsSection';
 import NewsSection1 from './components/NewsSection1';
 import ReadNext from './components/ReadNext';
 import FeedbackSection from './components/FeedbackSection';
+import FooterSection from './components/FooterSection';
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
       <NewsSection1 />
       <ReadNext />
       <FeedbackSection />
+      <FooterSection />
     </div>
   );
 }
