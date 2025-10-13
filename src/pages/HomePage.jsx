@@ -1,0 +1,22 @@
+import React from 'react';
+import NavBar from '../components/NavBar';
+import TopSection from '../components/TopSection';
+import NewsSection from '../components/NewsSection';
+import NewsSection1 from '../components/NewsSection1';
+import ReadNext from '../components/ReadNext';
+import FeedbackSection from '../components/FeedbackSection';
+import FooterSection from '../components/FooterSection';
+
+export default function HomePage() {
+  return (
+    <div className='font-sans text-gray-900'>
+      <NavBar />
+      <TopSection />
+      <NewsSection />
+      <NewsSection1 />
+      <ReadNext />
+      <FeedbackSection />
+      <FooterSection />
+    </div>
+  );
+}
