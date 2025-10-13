@@ -4,6 +4,7 @@ import NavBar from './components/NavBar';
 import TopSection from './components/TopSection';
 import NewsSection from './components/NewsSection';
 import NewsSection1 from './components/NewsSection1';
+import ReadNext from './components/ReadNext';
 
 export default function App() {
   return (
@@ -12,6 +13,7 @@ export default function App() {
       <TopSection />
       <NewsSection />
       <NewsSection1 />
+      <ReadNext />
     </div>
   );
 }
