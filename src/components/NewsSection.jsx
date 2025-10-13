@@ -1,58 +1,62 @@
-import React from 'react';
-import { Link } from 'react-router-dom'; // ✅ Correct import
-
-const newsItems = [
-  {
-    title: 'Motoring',
-    description: "What’s new in the motoring world",
-    image: 'https://source.unsplash.com/featured/400x300?car,event',
-    slug: 'motoring',
-  },
-  {
-    title: 'Cooking guides',
-    description: "Freshest recipes to liven up your kitchen",
-    image: 'https://source.unsplash.com/featured/400x300?cooking,food',
-    slug: 'cooking-guides',
-  },
-  {
-    title: 'Politics',
-    description: "Is your party right for you? Check out our surveys!",
-    image: 'https://source.unsplash.com/featured/400x300?politics,government',
-    slug: 'politics',
-  },
-];
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { fetchTopHeadlines } from '../utils/newsApi';
 
 export default function NewsSection() {
+  const [articles, setArticles] = useState([]);
+  const [showAll, setShowAll] = useState(false);
+
+  useEffect(() => {
+    const loadNews = async () => {
+      try {
+        const data = await fetchTopHeadlines({ country: 'us', pageSize: 10 });
+        setArticles(data.articles);
+      } catch (err) {
+        console.error('Failed to fetch top headlines:', err);
+      }
+    };
+
+    loadNews();
+  }, []);
+
   return (
     <section className="py-16 px-6 md:px-12 bg-white">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-2xl font-semibold mb-8">News at your fingertips</h2>
+        <h2 className="text-2xl font-semibold mb-8">Latest Headlines</h2>
 
         <div className="grid gap-6 md:grid-cols-3">
-          {newsItems.map((item, index) => (
+          {articles.slice(0, showAll ? articles.length : 3).map((article, index) => (
             <Link
-              to={`/article`} // link each card to a specific article
               key={index}
-              className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300"
+              to="/article"
+              state={{ article }}
+              className="block bg-white rounded-lg shadow-md hover:shadow-lg transition"
             >
-              <img
-                src={item.image}
-                alt={item.title}
-                className="w-full h-52 object-cover"
-              />
+              {article.urlToImage && (
+                <img
+                  src={article.urlToImage}
+                  alt={article.title}
+                  className="w-full h-52 object-cover rounded-t-lg"
+                />
+              )}
               <div className="p-4">
-                <h3 className="text-base font-semibold">{item.title}</h3>
-                <p className="text-sm text-gray-600">{item.description}</p>
+                <h3 className="text-base font-bold mb-1 line-clamp-2">{article.title}</h3>
+                <p className="text-sm text-gray-600 line-clamp-3">{article.description}</p>
               </div>
             </Link>
           ))}
         </div>
 
-        <div className="mt-8 text-left">
-          <button className="px-6 py-2 bg-gray-100 hover:bg-gray-200 text-sm rounded-2xl">
-            Show more...
-          </button>
-        </div>
+        {!showAll && articles.length > 3 && (
+          <div className="mt-8 text-left">
+            <button
+              className="px-6 py-2 bg-gray-100 hover:bg-gray-200 text-sm rounded-2xl"
+              onClick={() => setShowAll(true)}
+            >
+              Show more...
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );

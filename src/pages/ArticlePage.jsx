@@ -1,67 +1,105 @@
 import React from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { fetchTopHeadlines } from '../utils/newsApi';
+import { useEffect, useState } from 'react';
 import NavBar from '../components/NavBar';
 import FooterSection from '../components/FooterSection';
 
 export default function ArticlePage() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const article = location.state?.article;
+  const [ relatedArticles, setRelatedArticles ] = useState([]);
+
+  useEffect(() => {
+    if (!article) {
+      navigate('/');
+      return;
+    }
+
+    const loadRelated = async () => {
+      try {
+        const data = await fetchTopHeadlines({
+          category: article.category || 'general',
+          pageSize: 6,
+        });
+
+        const filtered = data.articles.filter(
+          (a) => a.title !== article.title
+        );
+
+        setRelatedArticles(filtered);
+      } catch (err) {
+        console.error('Failed to load related news:', err);
+      }
+    };
+
+    loadRelated();
+  }, [article, navigate]);
+
+  if (!article) return null;
+
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-12">
-
+    <div className="font-sans text-gray-900">
       <NavBar />
+      <div className="px-6 md:px-24 lg:px-40 py-8 space-y-6">
+        <h1 className="text-3xl font-bold leading-tight mb-4">{article.title}</h1>
 
-      {/* Title & Main Image */}
-      <article className="space-y-6">
-        <h2 className="text-3xl font-bold max-w-2xl leading-snug">
-          NRL cult hero saves ‘his best for last’ in Super League grand final fairy tale
-        </h2>
-
-        <img
-          src="/"
-          alt="NRL hero with trophy"
-          className="w-full border-4 border-blue-500 rounded"
-        />
-
-        {/* Article Content */}
-        <div className="space-y-4 text-gray-800 text-sm leading-relaxed">
-          <p>
-            Blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah...
-          </p>
-          <p>
-            Blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah...
-          </p>
-        </div>
-
-        {/* Inline Supporting Images */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <img src="/path-img1.jpg" alt="Team celebration" className="rounded" />
-          <img src="/path-img2.jpg" alt="Player moment" className="rounded" />
-        </div>
-
-        {/* More Content */}
-        <p className="text-sm text-gray-700 leading-relaxed">
-          More blah blah blah blah blah blah blah blah blah blah blah blah...
+        <p className="text-sm text-gray-500 italic">
+          {article.author || 'Unknown Author'} — {new Date(article.publishedAt).toLocaleString()}
         </p>
-      </article>
 
-      {/* Related Posts Section */}
-      <section className="space-y-4">
-        <h3 className="text-lg font-semibold">Related articles or posts</h3>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[
-            { title: "GeeksHealth: ‘This 1 Cup Before Bed...’", img: "/rel1.jpg" },
-            { title: "NRL star steps out with jaw-dropping sister", img: "/rel2.jpg" },
-            { title: "Cardiologist: Final Exit... This Crushed Every Bit of Belly Fat", img: "/rel3.jpg" },
-            { title: "Wellness Salt Globes & Detox", img: "/rel4.jpg" },
-          ].map((item, index) => (
-            <div key={index} className="space-y-2">
-              <img src={item.img} alt={item.title} className="rounded w-full" />
-              <p className="text-xs text-gray-800">{item.title}</p>
-            </div>
-          ))}
+        {article.urlToImage && (
+          <img
+            src={article.urlToImage}
+            alt={article.title}
+            className="w-full rounded-xl shadow-md"
+          />
+        )}
+
+        <div className="prose max-w-none">
+          <p>{article.description}</p>
+          <p>{article.content?.replace(/\[\+\d+\schars\]/g, '')}</p>
+          <a
+            href={article.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-4 inline-block text-blue-600 underline"
+          >
+            Read full article on original source
+          </a>
         </div>
-      </section>
 
+        {relatedArticles.length > 0 && (
+          <div className="mt-12">
+            <h2 className="text-2xl font-semibold mb-4">Related articles or posts</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+              {relatedArticles.map((item, index) => (
+                <div
+                  key={index}
+                  onClick={() => navigate('/article', { state: { article: item } })}
+                  className="cursor-pointer rounded-lg overflow-hidden shadow hover:shadow-lg transition duration-200"
+                >
+                  {item.urlToImage && (
+                    <img
+                      src={item.urlToImage}
+                      alt={item.title}
+                      className="w-full h-40 object-cover"
+                    />
+                  )}
+                  <div className="p-4">
+                    <h3 className="font-semibold line-clamp-2">{item.title}</h3>
+                    <p className="text-sm text-gray-500 mt-1 line-clamp-3">
+                      {item.description}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
       <FooterSection />
-
     </div>
   );
 }
