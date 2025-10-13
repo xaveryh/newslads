@@ -1,38 +1,53 @@
-import React from 'react';
-
-const articles = [
-  {
-    title: "Cox ‘bagged drugs before he could ride a bike’",
-    description:
-      "A spiral into drug addiction contributed to a former AFL star killing two CWA women in a meth-fuelled car crash.",
-    image: "https://source.unsplash.com/featured/600x300?car,crime",
-  },
-  {
-    title: "7.4 magnitude quake rocks Asian nation",
-    description:
-      "A magnitude 7.4 earthquake has rattled a nation of 115 million, prompting a tsunami warning and mass evacuations across the country.",
-    image: "https://source.unsplash.com/featured/600x300?earthquake,asia",
-  },
-];
+import React, { useEffect, useState } from 'react';
+import { fetchNewsByKeyword } from '../utils/newsApi';
+import { Link } from 'react-router-dom';
 
 export default function ReadNext() {
+  const [articles, setArticles] = useState([]);
+
+  useEffect(() => {
+    const loadKeywordNews = async () => {
+      try {
+        const data = await fetchNewsByKeyword('apple', 2);
+        setArticles(data);
+      } catch (err) {
+        console.error('Error fetching news:', err);
+      }
+    };
+
+    loadKeywordNews();
+  }, []);
+
   return (
-    <section className="py-16 px-6 md:px-12 bg-white">
-      <div className="max-w-7xl mx-auto">
-        <h2 className="text-2xl font-semibold mb-8">Read next</h2>
-        <div className="grid gap-6 md:grid-cols-2">
-          {articles.map((article, index) => (
-            <div key={index} className="flex flex-col">
+    <section className="px-6 py-10">
+      <h2 className="text-xl font-semibold mb-4">Read next</h2>
+
+      <div className="grid grid-cols-2 gap-6">
+        {articles.map((article, index) => (
+          <Link
+            key={index}
+            to="/article"
+            state={{ article }}
+            className="group flex flex-col"
+          >
+            {article.urlToImage && (
               <img
-                src={article.image}
+                src={article.urlToImage}
                 alt={article.title}
-                className="w-full h-52 object-cover rounded mb-4"
+                className="w-full h-36 object-cover rounded"
               />
-              <h3 className="text-base font-semibold mb-1">{article.title}</h3>
-              <p className="text-sm text-gray-600">{article.description}</p>
+            )}
+
+            <div className="mt-3">
+              <h3 className="text-sm font-bold leading-snug group-hover:underline">
+                {article.title}
+              </h3>
+              <p className="text-xs text-gray-600 mt-1 line-clamp-3">
+                {article.description}
+              </p>
             </div>
-          ))}
-        </div>
+          </Link>
+        ))}
       </div>
     </section>
   );
