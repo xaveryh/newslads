@@ -1,23 +1,14 @@
 import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 import './index.css';
-import NavBar from './components/NavBar';
-import TopSection from './components/TopSection';
-import NewsSection from './components/NewsSection';
-import NewsSection1 from './components/NewsSection1';
-import ReadNext from './components/ReadNext';
-import FeedbackSection from './components/FeedbackSection';
-import FooterSection from './components/FooterSection';
+import HomePage from './pages/HomePage';
+import ArticlePage from './pages/ArticlePage';
 
 export default function App() {
   return (
-    <div className='font-sans text-gray-900'>
-      <NavBar />
-      <TopSection />
-      <NewsSection />
-      <NewsSection1 />
-      <ReadNext />
-      <FeedbackSection />
-      <FooterSection />
-    </div>
+    <Routes>
+      <Route path='/' element={<HomePage />} />
+      <Route path="/article" element={<ArticlePage />} />
+    </Routes>
   );
 }
