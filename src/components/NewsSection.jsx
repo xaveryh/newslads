@@ -10,7 +10,11 @@ export default function NewsSection() {
     const loadNews = async () => {
       try {
         const data = await fetchTopHeadlines({ country: 'us', pageSize: 10 });
-        setArticles(data.articles);
+        if (Array.isArray(data)) {
+          setArticles(data);
+        } else {
+          console.error('Unexpected API response:', data);
+        }
       } catch (err) {
         console.error('Failed to fetch top headlines:', err);
       }
@@ -25,26 +29,27 @@ export default function NewsSection() {
         <h2 className="text-2xl font-semibold mb-8">Latest Headlines</h2>
 
         <div className="grid gap-6 md:grid-cols-3">
-          {articles.slice(0, showAll ? articles.length : 3).map((article, index) => (
-            <Link
-              key={index}
-              to="/article"
-              state={{ article }}
-              className="block bg-white rounded-lg shadow-md hover:shadow-lg transition"
-            >
-              {article.urlToImage && (
-                <img
-                  src={article.urlToImage}
-                  alt={article.title}
-                  className="w-full h-52 object-cover rounded-t-lg"
-                />
-              )}
-              <div className="p-4">
-                <h3 className="text-base font-bold mb-1 line-clamp-2">{article.title}</h3>
-                <p className="text-sm text-gray-600 line-clamp-3">{article.description}</p>
-              </div>
-            </Link>
-          ))}
+          {Array.isArray(articles) &&
+            articles.slice(0, showAll ? articles.length : 3).map((article, index) => (
+              <Link
+                key={index}
+                to="/article"
+                state={{ article }}
+                className="block bg-white rounded-lg shadow-md hover:shadow-lg transition"
+              >
+                {article.urlToImage && (
+                  <img
+                    src={article.urlToImage}
+                    alt={article.title}
+                    className="w-full h-52 object-cover rounded-t-lg"
+                  />
+                )}
+                <div className="p-4">
+                  <h3 className="text-base font-bold mb-1 line-clamp-2">{article.title}</h3>
+                  <p className="text-sm text-gray-600 line-clamp-3">{article.description}</p>
+                </div>
+              </Link>
+            ))}
         </div>
 
         {!showAll && articles.length > 3 && (
