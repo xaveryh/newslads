@@ -10,9 +10,7 @@ export default function TopSection() {
                 <div className="flex-1 text-center md:text-left">
                     <h1 className="text-7xl font-extrabold mb-4">Welcome!</h1>
                     <p className="text-lg mb-6">See what’s newest with NewsLads!</p>
-                    <button className="bg-black text-white px-6 py-2 rounded hover:bg-gray-800">
-                    Search
-                    </button>
+                    <button className="bg-black text-white px-6 py-2 rounded-2xl hover:bg-gray-800">Search</button>
                 </div>
 
                 {/* Right side */}
