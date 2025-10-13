@@ -12,6 +12,7 @@ export default function App() {
         <h1 className='text-xl font-bold'>NewsLads.com</h1>
         <nav>
           <button className='p-2 bg-gray-100 rounded hover:bg-gray-200'>Home</button>
+          <button className='p-2 bg-gray-100 rounded hover:bg-gray-200'>Search</button>
         </nav>
       </header>
     
