@@ -1,9 +1,9 @@
 import React from 'react';
 import './index.css';
 import NavBar from './components/NavBar';
-import NewsSection from './components/NewsSection';
 import TopSection from './components/TopSection';
-
+import NewsSection from './components/NewsSection';
+import NewsSection1 from './components/NewsSection1';
 
 export default function App() {
   return (
@@ -11,6 +11,7 @@ export default function App() {
       <NavBar />
       <TopSection />
       <NewsSection />
+      <NewsSection1 />
     </div>
   );
 }

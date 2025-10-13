@@ -39,7 +39,7 @@ export default function NewsSection() {
           ))}
         </div>
         <div className="mt-8 text-left">
-          <button className="px-6 py-2 bg-gray-100 hover:bg-gray-200 text-sm rounded">
+          <button className="px-6 py-2 bg-gray-100 hover:bg-gray-200 text-sm rounded-2xl">
             Show more...
           </button>
         </div>
