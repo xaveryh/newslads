@@ -23,10 +23,10 @@ export default function CategoryPage() {
   }, [categoryName]);
 
   return (
-    <div className='font-sans text-gray-900'>
+    <div className='min-h-screen flex flex-col'>
       <NavBar />
 
-      <section className="py-16 px-6 md:px-12 bg-white">
+      <main className="flex-grow px-6 md:px-24 lg:px-40 py-8 space-y-6">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-2xl font-semibold mb-8 capitalize">{categoryName} News</h2>
 
@@ -57,7 +57,7 @@ export default function CategoryPage() {
             </div>
           )}
         </div>
-      </section>
+      </main>
 
       <FooterSection />
     </div>
