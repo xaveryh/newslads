@@ -18,10 +18,10 @@ export default function SearchPage() {
   };
 
   return (
-    <div className='font-sans text-gray-900'>
+    <div className='min-h-screen flex flex-col'>
       <NavBar />
-      <section className="py-16 px-6 md:px-12 bg-white">
-        <div className="max-w-3xl mx-auto">
+      <main className="flex-grow">
+        <div className="max-w-3xl mx-auto mt-8">
           <form onSubmit={handleSearch} className="flex mb-8">
             <input
               type="text"
@@ -67,7 +67,7 @@ export default function SearchPage() {
             </div>
           )}
         </div>
-      </section>
+      </main>
       <FooterSection />
     </div>
   );
