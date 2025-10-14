@@ -1,5 +1,6 @@
 import React from "react"
 import logo from '../assets/logo.png'
+import { Link } from 'react-router-dom';
 
 export default function TopSection() {
     return (
@@ -10,7 +11,9 @@ export default function TopSection() {
                 <div className="flex-1 text-center md:text-left">
                     <h1 className="text-7xl font-extrabold mb-4">Welcome!</h1>
                     <p className="text-lg mb-6">See what’s newest with NewsLads!</p>
-                    <button className="bg-black text-white px-6 py-2 rounded-2xl hover:bg-gray-800">Search</button>
+                    <Link to="/search">
+                        <button className="bg-black text-white px-6 py-2 rounded-2xl hover:bg-gray-800">Search</button>
+                    </Link>
                 </div>
 
                 {/* Right side */}

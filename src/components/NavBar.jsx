@@ -13,9 +13,11 @@ export default function NavBar() {
             Home
           </button>
         </Link>
-        <button className="bg-black text-white px-6 py-2 rounded-2xl hover:bg-gray-800">
-          Search
-        </button>
+        <Link to="/search">
+          <button className="bg-black text-white px-6 py-2 rounded-2xl hover:bg-gray-800">
+            Search
+          </button>
+        </Link>
       </nav>
     </header>
   );
