@@ -2,7 +2,7 @@ FROM node:22-alpine
 
 WORKDIR /app
 
-COPY dist/ .
+COPY . .
 
 RUN npm install --global serve
 
