@@ -43,7 +43,7 @@ export default function NewsSection() {
                     <img
                       src={article.urlToImage}
                       alt={article.title}
-                      className="w-full h-52 object-cover rounded-t-lg"
+                      className="w-full h-40 object-cover"
                     />
                   )}
                   <div className="p-4">

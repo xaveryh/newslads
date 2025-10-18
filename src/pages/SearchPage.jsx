@@ -55,7 +55,7 @@ export default function SearchPage() {
                     <img
                       src={article.urlToImage}
                       alt={article.title}
-                      className="w-full h-48 object-cover rounded-t-lg"
+                      className="w-full h-40 object-cover"
                     />
                   )}
                   <div className="p-4">
