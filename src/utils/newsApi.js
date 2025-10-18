@@ -1,62 +1,107 @@
 import axios from 'axios';
 
-export const BASE_URL = 'https://newsapi.org/v2';
-export const NEWS_API_KEY = '';
+export const BASE_URL = 'https://eventregistry.org/api/v1';
+export const NEWS_API_AI_KEY = '';
 
-export const fetchTopHeadlines = async ({ country, category = 'general', pageSize = 10 } = {}) => {
+const callNewsApiAi = async (endpoint, params = {}) => {
   try {
-    const response = await axios.get(`${BASE_URL}/top-headlines`, {
+    const response = await axios.get(`${BASE_URL}/${endpoint}`, {
       params: {
-        country,
-        category,
-        pageSize,
-        apiKey: NEWS_API_KEY
-      }
+        apiKey: NEWS_API_AI_KEY,
+        ...params,
+      },
     });
-    return response.data.articles;
+    return response.data;
+  } catch (error) {
+    console.error(`Error calling NewsAPI.ai (${endpoint}):`, error.response?.data || error.message);
+    return null;
+  }
+};
+
+const normalizeArticle = (article) => ({
+  title: article.title || '',
+  description: article.body || article.summary || '',
+  content: article.body || '',
+  url: article.url || '',
+  urlToImage: article.image?.url || article.image || null,
+  author: article.authors?.[0]?.name || article.source?.title || 'Unknown Author',
+  publishedAt: article.dateTimePub || article.date || null,
+  category: article.concepts?.[0]?.label?.eng || 'general',
+});
+
+export const fetchTopHeadlines = async ({ keyword = '', lang = 'eng', count = 10 } = {}) => {
+  try {
+    const data = await callNewsApiAi('article/getArticles', {
+      keyword,
+      lang,
+      articlesCount: count,
+      sortBy: 'date',
+    });
+
+    const articles = data?.articles?.results || [];
+    return articles.map(normalizeArticle);
   } catch (error) {
     console.error('Error fetching top headlines:', error);
     return [];
   }
 };
 
-export const fetchNewsByCategory = async ({ category, country, pageSize = 3 }) => {
+export const fetchNewsByCategory = async ({ category, lang = 'eng', count = 5 }) => {
   try {
-    const response = await axios.get(`${BASE_URL}/top-headlines`, {
-      params: {
-        country,
-        category,
-        pageSize,
-        apiKey: NEWS_API_KEY
-      }
+    const data = await callNewsApiAi('article/getArticles', {
+      keyword: category,
+      lang,
+      articlesCount: count,
+      sortBy: 'date',
     });
-    return response.data.articles;
+
+    const articles = data?.articles?.results || [];
+    return articles.map(normalizeArticle);
   } catch (error) {
     console.error(`Error fetching ${category} news:`, error);
     return [];
   }
 };
 
-export const fetchNewsByKeyword = async (keyword, pageSize = 4, sortBy = 'publishedAt') => {
-  const url = `${BASE_URL}/everything?q=${encodeURIComponent(keyword)}&pageSize=${pageSize}&sortBy=${sortBy}&apiKey=${NEWS_API_KEY}`;
-  const res = await axios.get(url);
-  return res.data.articles;
+export const fetchNewsByKeyword = async (keyword, count = 5, sortBy = 'date') => {
+  try {
+    const data = await callNewsApiAi('article/getArticles', {
+      keyword,
+      articlesCount: count,
+      sortBy,
+    });
+
+    const articles = data?.articles?.results || [];
+    return articles.map(normalizeArticle);
+  } catch (error) {
+    console.error('Error fetching keyword news:', error);
+    return [];
+  }
 };
 
-export const fetchNewsBySearch = async (query, pageSize = 10) => {
+export const fetchNewsBySearch = async (query, count = 10) => {
   try {
-    const response = await axios.get(`${BASE_URL}/everything`, {
-      params: {
-        q: query,
-        pageSize,
-        sortBy: 'publishedAt',
-        language: 'en',
-        apiKey: NEWS_API_KEY,
-      }
+    const data = await callNewsApiAi('article/getArticles', {
+      keyword: query,
+      articlesCount: count,
+      sortBy: 'date',
+      lang: 'eng',
     });
-    return response.data.articles;
+
+    const articles = data?.articles?.results || [];
+    return articles.map(normalizeArticle);
   } catch (error) {
     console.error('Error fetching search results:', error);
+    return [];
+  }
+};
+
+export const fetchAvailableCategories = async () => {
+  try {
+    const data = await callNewsApiAi('concept/getConceptTypeList', {});
+    return data?.conceptTypes || [];
+  } catch (error) {
+    console.error('Error fetching categories:', error);
     return [];
   }
 };

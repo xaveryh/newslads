@@ -34,10 +34,9 @@ export default function ReadNext() {
               <img
                 src={article.urlToImage}
                 alt={article.title}
-                className="w-full h-full object-cover rounded"
+                className="w-full h-40 object-cover"
               />
             )}
-
             <div className="mt-3">
               <h3 className="text-sm font-bold leading-snug group-hover:underline">
                 {article.title}
