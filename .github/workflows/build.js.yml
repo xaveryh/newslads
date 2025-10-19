@@ -49,5 +49,8 @@ jobs:
     - name: Dockerise bundled code
       run: docker build --file Dockerfile --tag $IMAGE_NAME dist/
 
+    - name: Tag image as latest
+      run: docker tag $IMAGE_NAME ${{ secrets.REGISTRY_NAME }}/staging:latest 
+
     - name: Push image to ACR
       run: docker push $IMAGE_NAME
