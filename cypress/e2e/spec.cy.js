@@ -1,5 +1,5 @@
 const API_URL = "https://eventregistry.org/api/v1"
-const APP_URL = process.env.CYPRESS_STAGING_APP_URL 
+const APP_URL = Cypress().env("CYPRESS_STAGING_APP_URL")
 
 describe('Checks if server is up', () => {
   it('Passes', () => {
@@ -18,3 +18,4 @@ it('Explores daily news', function() {
     .children()  
     .should("have.length", 3)
 });
+
