@@ -1,9 +1,10 @@
 import axios from 'axios';
 
 export const BASE_URL = 'https://eventregistry.org/api/v1';
-export const NEWS_API_AI_KEY = '';
+export const NEWS_API_AI_KEY = import.meta.env.VITE_NEWS_API_TOKEN;
 
 const callNewsApiAi = async (endpoint, params = {}) => {
+  console.log(import.meta.env)
   try {
     const response = await axios.get(`${BASE_URL}/${endpoint}`, {
       params: {
