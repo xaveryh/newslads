@@ -33,7 +33,7 @@ export default function CategoryPage() {
           {articles.length === 0 ? (
             <p className="text-gray-500">No news available in this category.</p>
           ) : (
-            <div className="grid gap-6 md:grid-cols-3">
+            <div className="grid gap-6 md:grid-cols-3" id="category-articles-container">
               {articles.map((article, index) => (
                 <Link
                   key={index}

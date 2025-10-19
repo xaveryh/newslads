@@ -23,3 +23,23 @@ it('Explores daily news', function() {
 
   cy.wait("@getArticles").its("response.statusCode").should("eq", 200)
 });
+
+
+it("Explores specific (sports) news", function() {
+  cy.intercept(`${API_URL}/article/getArticles*`).as("getArticles")
+
+  cy.visit(APP_URL)
+
+  cy.get("#sports-button").click()
+
+  cy.wait("@getArticles")
+
+  cy.get("#category-articles-container")
+    .children()
+    .its("length")
+    .should("be.greaterThan", 1)
+  
+  cy.get("#category-articles-container a:nth-child(1)").click()
+
+  cy.wait("@getArticles").its("response.statusCode").should("eq", 200)
+})
