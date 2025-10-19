@@ -36,9 +36,6 @@ jobs:
     - name: Set Docker image name
       run: echo "IMAGE_NAME=${{ secrets.REGISTRY_NAME }}/newslads:$(date +%s)" >> $GITHUB_ENV
 
-    - name: Check image name
-      run: echo $IMAGE_NAME
-
     - name: Login to ACR
       uses: docker/login-action@v2
       with:  
@@ -51,6 +48,3 @@ jobs:
 
     - name: Push image to ACR
       run: docker push $IMAGE_NAME
-
-    - name: Check Docker login credentials
-      run: docker info 
