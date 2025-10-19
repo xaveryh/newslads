@@ -37,7 +37,7 @@ jobs:
       run: npm run build
 
     - name: Set Docker image name
-      run: echo "IMAGE_NAME=${{ secrets.REGISTRY_NAME }}/newslads:$(date +%s)" >> $GITHUB_ENV
+      run: echo "IMAGE_NAME=${{ secrets.REGISTRY_NAME }}/staging:$(date +%s)" >> $GITHUB_ENV
 
     - name: Login to ACR
       uses: docker/login-action@v2
