@@ -30,6 +30,9 @@ jobs:
     - name: Install dependencies
       run: npm ci
 
+    - name: Add NEWS API token to a .env file
+      run: echo "VITE_NEWS_API_TOKEN=${{ secrets.NEWS_API_TOKEN }}" > .env
+
     - name: Build code
       run: npm run build
 
