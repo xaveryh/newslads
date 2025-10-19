@@ -24,11 +24,11 @@ export default function NewsSection() {
   }, []);
 
   return (
-    <section className="py-16 px-6 md:px-12 bg-white">
+    <section className="py-16 px-6 md:px-12 bg-white" id="latest-headline-section">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-2xl font-semibold mb-8">Latest Headlines</h2>
+        <h2 className="text-2xl font-semibold mb-8" id="latest-headline-heading">Latest Headlines</h2>
 
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-3" id="latest-headlines">
           {Array.isArray(articles) &&
             articles
               .slice(0, showAll ? articles.length : 3)
@@ -57,6 +57,7 @@ export default function NewsSection() {
         {articles.length > 3 && (
           <div className="mt-8 text-left">
             <button
+              id="show-more-button"
               className="px-6 py-2 bg-gray-100 hover:bg-gray-200 text-sm rounded-2xl"
               onClick={() => setShowAll((prev) => !prev)}
             >
