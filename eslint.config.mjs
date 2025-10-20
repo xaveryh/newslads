@@ -11,9 +11,7 @@ export default antfu({
     quotes: "double",
   },
 }, {
-  ignores: [
-    ".github/workflows/**/*.{yml,yaml}",
-  ],
+  ignores: ["**/.github/workflows/**", "**/*.y?(a)ml"],
   rules: {
     "react/no-array-index-key": "off",
     "ts/no-redeclare": "off",

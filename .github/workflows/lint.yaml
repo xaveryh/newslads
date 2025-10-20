@@ -2,9 +2,9 @@ name: Lint
 
 on:
   push:
-    branches: ['**']
+    branches: ["**"]
   pull_request:
-    branches: ['**']
+    branches: ["**"]
 
 jobs:
   lint:
@@ -16,7 +16,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20   
+          node-version: 20
           cache: npm
 
       - name: Install deps
@@ -24,5 +24,3 @@ jobs:
 
       - name: Run ESLint (fail on warnings)
         run: npm run lint -- --max-warnings=0
-    
-
