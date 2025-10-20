@@ -4,34 +4,89 @@ import { fetchNewsByCategory } from '../utils/newsApi';
 import NavBar from '../components/NavBar';
 import FooterSection from '../components/FooterSection';
 
+const countryOptions = [
+  { label: 'Australia', uri: 'http://en.wikipedia.org/wiki/Australia' },
+  { label: 'United Kingdom', uri: 'http://en.wikipedia.org/wiki/United_Kingdom' },
+  { label: 'United States', uri: 'http://en.wikipedia.org/wiki/United_States' },
+  { label: 'Canada', uri: 'http://en.wikipedia.org/wiki/Canada' },
+  { label: 'Cambodia', uri: 'http://en.wikipedia.org/wiki/Cambodia' },
+];
+
 export default function CategoryPage() {
   const { categoryName } = useParams();
   const [articles, setArticles] = useState([]);
+  const [selectedRegion, setSelectedRegion] = useState(countryOptions[0].uri);
+  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const loadFilteredNews = async () => {
+    try {
+      setIsLoading(true);
+      const data = await fetchNewsByCategory({
+        category: categoryName,
+        lang: 'eng',
+        countryUri: selectedRegion,
+        date: selectedDate,
+        count: 12,
+      });
+      setArticles(data);
+    } catch (error) {
+      console.error('Failed to load filtered news:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const loadCategoryNews = async () => {
-      try {
-        const data = await fetchNewsByCategory({ category: categoryName, country: 'us', pageSize: 10 });
-        console.log("Fetched category data:", data);
-        setArticles(data);
-      } catch (error) {
-        console.error('Failed to load category news:', error);
-      }
-    };
-
-    loadCategoryNews();
+    loadFilteredNews();
   }, [categoryName]);
 
   return (
-    <div className='min-h-screen flex flex-col'>
+    <div className="min-h-screen flex flex-col">
       <NavBar />
 
       <main className="flex-grow px-6 md:px-24 lg:px-40 py-8 space-y-6">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-2xl font-semibold mb-8 capitalize">{categoryName} News</h2>
+          <h2 className="text-2xl font-semibold mb-6 capitalize">{categoryName} News</h2>
 
-          {articles.length === 0 ? (
-            <p className="text-gray-500">No news available in this category.</p>
+          <div className="flex flex-col md:flex-row gap-4 items-start md:items-center mb-8">
+            <label className="flex flex-col text-sm font-medium text-gray-700">
+              Region:
+              <select
+                className="mt-1 block w-48 rounded-md border-gray-300 shadow-sm"
+                value={selectedRegion}
+                onChange={(e) => setSelectedRegion(e.target.value)}
+              >
+                {countryOptions.map((option) => (
+                  <option key={option.uri} value={option.uri}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label className="flex flex-col text-sm font-medium text-gray-700">
+              Date:
+              <input
+                type="date"
+                className="mt-1 block w-40 rounded-md border-gray-300 shadow-sm"
+                value={selectedDate}
+                onChange={(e) => setSelectedDate(e.target.value)}
+              />
+            </label>
+
+            <button
+              className="mt-2 md:mt-6 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+              onClick={loadFilteredNews}
+            >
+              Apply Filters
+            </button>
+          </div>
+
+          {isLoading ? (
+            <p className="text-gray-500">Loading...</p>
+          ) : articles.length === 0 ? (
+            <p className="text-gray-500">No news available for selected filters.</p>
           ) : (
             <div className="grid gap-6 md:grid-cols-3" id="category-articles-container">
               {articles.map((article, index) => (

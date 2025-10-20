@@ -47,17 +47,35 @@ export const fetchTopHeadlines = async ({ keyword = '', lang = 'eng', count = 10
   }
 };
 
-export const fetchNewsByCategory = async ({ category, lang = 'eng', count = 5 }) => {
+export const fetchNewsByCategory = async ({
+  category,
+  lang = 'eng',
+  count = 10,
+  countryUri,
+  date
+}) => {
   try {
-    const data = await callNewsApiAi('article/getArticles', {
+    const params = {
       keyword: category,
       lang,
-      articlesCount: count,
+      articlesCount: 50,
       sortBy: 'date',
-    });
+    };
 
+    if (countryUri) {
+      params.sourceLocationUri = countryUri;
+    }
+
+    if (date) {
+      const formattedDate = new Date(date).toISOString().split('T')[0];
+      params.dateStart = formattedDate;
+      params.dateEnd = formattedDate;
+    }
+
+    const data = await callNewsApiAi('article/getArticles', params);
     const articles = data?.articles?.results || [];
-    return articles.map(normalizeArticle);
+
+    return articles.slice(0, count).map(normalizeArticle);
   } catch (error) {
     console.error(`Error fetching ${category} news:`, error);
     return [];
