@@ -1,4 +1,5 @@
 import antfu from "@antfu/eslint-config";
+import globals from "globals";
 
 export default antfu({
   type: "app",
@@ -11,8 +12,14 @@ export default antfu({
     quotes: "double",
   },
 }, {
+  languageOptions: {
+    globals: {
+      ...globals.jest,
+    },
+  },
   ignores: ["**/.github/workflows/**", "**/*.y?(a)ml"],
   rules: {
+    "react/no-unnecessary-use-prefix": "off",
     "react/no-array-index-key": "off",
     "ts/no-redeclare": "off",
     "ts/consistent-type-definitions": ["error", "type"],
