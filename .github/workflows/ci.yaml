@@ -1,4 +1,4 @@
-name: Lint
+name: CI
 
 on:
   push:
@@ -24,3 +24,9 @@ jobs:
 
       - name: Run ESLint (fail on warnings)
         run: npm run lint -- --max-warnings=0
+
+      - name: Build (Vite)
+        run: npm run build
+
+      - name: Test (Jest + RTL)
+        run: npm run test:ci
