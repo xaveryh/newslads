@@ -76,7 +76,7 @@ export default function CategoryPage() {
             </label>
 
             <button
-              className="mt-2 md:mt-6 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+              className="bg-black text-white px-6 py-2 rounded-2xl hover:bg-gray-800 mr-2"
               onClick={loadFilteredNews}
             >
               Apply Filters
