@@ -60,7 +60,7 @@ it("Searches for topic", function() {
   cy.get("#searched-articles-container")
     .children()
     .its("length")
-    .should("be.greatherThan", 1)
+    .should("be.greaterThan", 1)
 
 
   cy.get("#searched-articles-container a:nth-child(1)").click()
