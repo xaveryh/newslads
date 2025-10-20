@@ -1,27 +1,3 @@
-# name: Lint
-
-# on:
-#   push:
-#     branches: ["**"]
-#   pull_request:
-#     branches: ["**"]
-
-# jobs:
-#   build:
-#     runs-on: ubuntu-latest
-
-#     steps:
-#       - uses: actions/checkout@v4
-#       - name: Install npm
-#         uses: npm/action-setup@v4
-#         with:
-#           version: 10
-#       - name: Use Node.js
-#         uses: actions/setup-node@v4
-#         with:
-#           node-version: 22.x
-#       - run: npm i
-#       - run: npm lint
 name: Lint
 
 on:
@@ -40,7 +16,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20   # or 22 if your project supports it
+          node-version: 20   
           cache: npm
 
       - name: Install deps
@@ -48,5 +24,5 @@ jobs:
 
       - name: Run ESLint (fail on warnings)
         run: npm run lint -- --max-warnings=0
-        # if you prefer warnings not to fail CI, just: npm run lint
+    
 
