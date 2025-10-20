@@ -43,3 +43,27 @@ it("Explores specific (sports) news", function() {
 
   cy.wait("@getArticles").its("response.statusCode").should("eq", 200)
 })
+
+it("Searches for topic", function() {
+  cy.intercept(`${API_URL}/article/getArticles*`).as("getArticles")
+  
+  cy.visit(APP_URL)
+
+  cy.get("#navbar-search-button").click()
+
+  cy.get("#search-input").type("Gaza")
+
+  cy.get("#search-submit").click()
+
+  cy.wait("@getArticles")
+
+  cy.get("#searched-articles-container")
+    .children()
+    .its("length")
+    .should("be.greatherThan", 1)
+
+
+  cy.get("#searched-articles-container a:nth-child(1)").click()
+
+  cy.wait("@getArticles").its("response.statusCode").should("eq", 200)
+})

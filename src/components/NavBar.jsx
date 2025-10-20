@@ -14,7 +14,7 @@ export default function NavBar() {
           </button>
         </Link>
         <Link to="/search">
-          <button className="bg-black text-white px-6 py-2 rounded-2xl hover:bg-gray-800 mr-2">
+          <button className="bg-black text-white px-6 py-2 rounded-2xl hover:bg-gray-800 mr-2" id="navbar-search-button">
             Search
           </button>
         </Link>
