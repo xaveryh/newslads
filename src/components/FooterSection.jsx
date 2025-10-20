@@ -1,11 +1,10 @@
-import React from 'react';
-import { FaFacebookF, FaLinkedinIn, FaYoutube, FaInstagram } from 'react-icons/fa';
+import { FaFacebookF, FaInstagram, FaLinkedinIn, FaYoutube } from "react-icons/fa";
 
 export default function Footer() {
   return (
     <footer className="bg-gray-50 border-t py-10 px-6 md:px-12">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-8 text-sm text-gray-600">
-        
+
         {/* Logo & Social */}
         <div>
           <h2 className="text-lg font-semibold text-black mb-4">NewsLads.com</h2>

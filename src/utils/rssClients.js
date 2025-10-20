@@ -1,8 +1,7 @@
-import axios from 'axios';
-import { parseStringPromise } from 'xml2js';
+import axios from "axios";
 
-export const fetchRSSFeed = async (rssUrl) => {
-  const proxyUrl = 'https://api.rss2json.com/v1/api.json?rss_url=';
+export async function fetchRSSFeed(rssUrl) {
+  const proxyUrl = "https://api.rss2json.com/v1/api.json?rss_url=";
 
   try {
     const response = await axios.get(`${proxyUrl}${encodeURIComponent(rssUrl)}`);
@@ -12,8 +11,9 @@ export const fetchRSSFeed = async (rssUrl) => {
       pubDate: item.pubDate,
       description: item.description,
     }));
-  } catch (error) {
+  }
+  catch (error) {
     console.error("Error fetching RSS feed:", error);
     return [];
   }
-};
+}

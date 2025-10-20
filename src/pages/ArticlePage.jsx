@@ -1,43 +1,44 @@
-import React from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { fetchTopHeadlines } from '../utils/newsApi';
-import { useEffect, useState } from 'react';
-import NavBar from '../components/NavBar';
-import FooterSection from '../components/FooterSection';
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import FooterSection from "../components/FooterSection";
+import NavBar from "../components/NavBar";
+import { fetchTopHeadlines } from "../utils/newsApi";
 
 export default function ArticlePage() {
   const location = useLocation();
   const navigate = useNavigate();
   const article = location.state?.article;
-  const [ relatedArticles, setRelatedArticles ] = useState([]);
+  const [relatedArticles, setRelatedArticles] = useState([]);
 
   useEffect(() => {
     if (!article) {
-      navigate('/');
+      navigate("/");
       return;
     }
 
     const loadRelated = async () => {
       try {
         const data = await fetchTopHeadlines({
-          category: article.category || 'general',
+          category: article.category || "general",
           pageSize: 6,
         });
 
         const filtered = data.articles.filter(
-          (a) => a.title !== article.title
+          a => a.title !== article.title,
         );
 
         setRelatedArticles(filtered);
-      } catch (err) {
-        console.error('Failed to load related news:', err);
+      }
+      catch (err) {
+        console.error("Failed to load related news:", err);
       }
     };
 
     loadRelated();
   }, [article, navigate]);
 
-  if (!article) return null;
+  if (!article)
+    return null;
 
   return (
     <div className="font-sans text-gray-900">
@@ -46,7 +47,10 @@ export default function ArticlePage() {
         <h1 className="text-3xl font-bold leading-tight mb-4">{article.title}</h1>
 
         <p className="text-sm text-gray-500 italic">
-          {article.author || 'Unknown Author'} — {new Date(article.publishedAt).toLocaleString()}
+          {article.author || "Unknown Author"}
+          {" "}
+          —
+          {new Date(article.publishedAt).toLocaleString()}
         </p>
 
         {article.urlToImage && (
@@ -59,7 +63,7 @@ export default function ArticlePage() {
 
         <div className="prose max-w-none">
           <p>{article.description}</p>
-          <p>{article.content?.replace(/\[\+\d+\schars\]/g, '')}</p>
+          <p>{article.content?.replace(/\[\+\d+\schars\]/g, "")}</p>
           <a
             href={article.url}
             target="_blank"
@@ -77,7 +81,7 @@ export default function ArticlePage() {
               {relatedArticles.map((item, index) => (
                 <div
                   key={index}
-                  onClick={() => navigate('/article', { state: { article: item } })}
+                  onClick={() => navigate("/article", { state: { article: item } })}
                   className="cursor-pointer rounded-lg overflow-hidden shadow hover:shadow-lg transition duration-200"
                 >
                   {item.urlToImage && (
