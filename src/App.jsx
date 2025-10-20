@@ -6,6 +6,7 @@ import ArticlePage from './pages/ArticlePage';
 import CategoryPage from './pages/CategoryPage';
 import SearchPage from './pages/SearchPage';
 import RSSPage from './pages/RSSPage';
+import RSSFeeds from './pages/RSSFeeds';
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
       <Route path="/article" element={<ArticlePage />} />
       <Route path="/search" element={<SearchPage />} />
       <Route path="/rss" element={<RSSPage />} />
+      <Route path="/feed" element={<RSSFeeds />} />
     </Routes>
   );
 }
