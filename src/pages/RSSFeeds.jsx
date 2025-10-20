@@ -70,7 +70,7 @@ const RSSFeeds = () => {
         ) : articles.length === 0 ? (
           <p className="text-gray-600">No new articles found from your followed channels.</p>
         ) : (
-          <div className="grid gap-6 md:grid-cols-2">
+          <div className="grid gap-6 md:grid-cols-2" id="feeds-container">
             {articles.map((article, index) => (
               <a
                 key={index}

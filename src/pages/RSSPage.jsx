@@ -69,15 +69,17 @@ const RSSPage = () => {
           <Link
             to="/feed"
             className="bg-black text-white px-6 py-2 rounded-2xl hover:bg-gray-800 mr-2"
+            id="view-feed"
           >
             View My Feed
           </Link>
         </div>
-        <div className="space-y-4">
+        <div className="space-y-4" id="rss-channels">
           {rssChannels.map((channel) => (
             <div
               key={channel.url}
               className="flex items-center justify-between border rounded p-4 bg-white shadow-md"
+              id={channel + "-channel"}
             >
               <div className="flex items-center space-x-4">
                 <img src={channel.logo} alt={`${channel.name} logo`} className="w-10 h-10 object-contain" />

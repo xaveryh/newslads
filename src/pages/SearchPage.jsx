@@ -29,10 +29,12 @@ export default function SearchPage() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               className="flex-1 px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none"
+              id="search-input"
             />
             <button
               type="submit"
               className="px-6 py-2 bg-black text-white rounded-r-md hover:bg-gray-800"
+              id="search-submit"
             >
               Search
             </button>
@@ -43,7 +45,7 @@ export default function SearchPage() {
           ) : articles.length === 0 ? (
             <p>No results found.</p>
           ) : (
-            <div className="grid gap-6 md:grid-cols-2">
+            <div className="grid gap-6 md:grid-cols-2" id="searched-articles-container">
               {articles.map((article, index) => (
                 <Link
                   key={index}
