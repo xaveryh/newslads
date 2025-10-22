@@ -26,4 +26,4 @@ jobs:
       run: docker tag ${{ secrets.REGISTRY_NAME }}/staging:latest ${{ secrets.REGISTRY_NAME }}/production:latest
 
     - name: Push image to production
-      run: docker push {{ secrets.REGISTRY_NAME }}/production:latest
+      run: docker push ${{ secrets.REGISTRY_NAME }}/production:latest
