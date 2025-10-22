@@ -80,7 +80,10 @@ it("Tries to subscribe to a feed and see the feed", function() {
       .its("length")
       .should("be.greaterThan", 1)
     
-  cy.get("#searched-articles-container button:nth-child(1)").click()
+  cy.get("#searched-articles-container div:nth-child(1)")
+    .children()
+    .get("button:nth-child(1)")
+    .click()
 
   cy.get("#view-feed").click()
 
@@ -90,9 +93,4 @@ it("Tries to subscribe to a feed and see the feed", function() {
     .children()
     .its("length")
     .should("be.greaterThan", 1)
-
-  // Unfollow the RSS feed
-  cy.get("#navbar-rss-button").click()
-  cy.get("#searched-articles-container button:nth-child(1)").click()
-
 })
