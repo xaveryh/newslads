@@ -21,6 +21,9 @@ jobs:
 
       - name: Install deps
         run: npm ci
+      
+      - name: Run ESLint Fix (fail on warnings)
+        run: npm run lint:fix -- --max-warnings=0
 
       - name: Run ESLint (fail on warnings)
         run: npm run lint -- --max-warnings=0
