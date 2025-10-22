@@ -79,8 +79,7 @@ it("Tries to subscribe to a feed and see the feed", function() {
     .its("length")
     .should("be.greaterThan", 1)
   
-  cy.get("#BBC-channel")
-    .get("button:nth-child(1)")
+  cy.get("#rss-channels div:nth-child(1) > button")
     .click()
 
   cy.get("#view-feed").click()
@@ -93,7 +92,6 @@ it("Tries to subscribe to a feed and see the feed", function() {
     .should("be.greaterThan", 1)
 
   cy.get("#navbar-rss-button").click()
-  cy.get("#BBC-channel")
-    .get("button:nth-child(1)")
+  cy.get("#rss-channels div:nth-child(1) > button")
     .click()
 })
