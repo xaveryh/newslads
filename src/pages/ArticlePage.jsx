@@ -36,7 +36,7 @@ export default function ArticlePage() {
   if (!article) return null;
 
   const formattedDate = article.publishedAt
-    ? new Date(article.publishedAt).toLocaleString()
+    ? new Date(article.publishedAt).toISOString().split('T')[0]
     : 'Unknown Date';
 
   return (

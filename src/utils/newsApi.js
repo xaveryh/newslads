@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const BASE_URL = 'https://eventregistry.org/api/v1';
-export const NEWS_API_AI_KEY = import.meta.env.VITE_NEWS_API_TOKEN;
+export const NEWS_API_AI_KEY = 'af2e583c-75b7-4b8f-a4a3-e113c2e7c003';
 
 const callNewsApiAi = async (endpoint, params = {}) => {
   console.log(import.meta.env)
@@ -67,9 +67,8 @@ export const fetchNewsByCategory = async ({
     }
 
     if (date) {
-      const formattedDate = new Date(date).toISOString().split('T')[0];
-      params.dateStart = formattedDate;
-      params.dateEnd = formattedDate;
+      params.dateStart = date;
+      params.dateEnd = date;
     }
 
     const data = await callNewsApiAi('article/getArticles', params);
