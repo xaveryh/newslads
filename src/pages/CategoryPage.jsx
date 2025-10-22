@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import FooterSection from "../components/FooterSection";
+
 import NavBar from "../components/NavBar";
+
 import { fetchNewsByCategory } from "../utils/newsApi";
 
 export default function CategoryPage() {
