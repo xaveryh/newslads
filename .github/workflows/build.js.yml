@@ -5,9 +5,9 @@ name: Build and Push Image CD To Staging
 
 on:
   push:
-    branches: [ "staging", "setup/cd" ]
+    branches: [ "staging" ]
   pull_request:
-    branches: [ "staging", "setup/cd" ]
+    branches: [ "staging" ]
 
 jobs:
   build:
