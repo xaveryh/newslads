@@ -90,4 +90,9 @@ it("Tries to subscribe to a feed and see the feed", function() {
     .children()
     .its("length")
     .should("be.greaterThan", 1)
+
+  // Unfollow the RSS feed
+  cy.get("#navbar-rss-button").click()
+  cy.get("#searched-articles-container button:nth-child(1)").click()
+
 })
