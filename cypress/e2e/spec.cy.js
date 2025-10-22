@@ -24,7 +24,6 @@ it('Explores daily news', function() {
   cy.wait("@getArticles").its("response.statusCode").should("eq", 200)
 });
 
-
 it("Explores specific (sports) news", function() {
   cy.intercept(`${API_URL}/article/getArticles*`).as("getArticles")
 
@@ -69,19 +68,18 @@ it("Searches for topic", function() {
 })
 
 it("Tries to subscribe to a feed and see the feed", function() {
-    cy.intercept(`https://api.rss2json.com/v1/api.json*`).as("getFeeds")
-  
-    cy.visit(APP_URL)
+  cy.intercept(`https://api.rss2json.com/v1/api.json*`).as("getFeeds")
 
-    cy.get("#navbar-rss-button").click()
+  cy.visit(APP_URL)
 
-    cy.get("#rss-channels")
-      .children()
-      .its("length")
-      .should("be.greaterThan", 1)
-    
-  cy.get("#searched-articles-container div:nth-child(1)")
+  cy.get("#navbar-rss-button").click()
+
+  cy.get("#rss-channels")
     .children()
+    .its("length")
+    .should("be.greaterThan", 1)
+  
+  cy.get("#BBC-channel")
     .get("button:nth-child(1)")
     .click()
 
@@ -93,4 +91,9 @@ it("Tries to subscribe to a feed and see the feed", function() {
     .children()
     .its("length")
     .should("be.greaterThan", 1)
+
+  cy.get("#navbar-rss-button").click()
+  cy.get("#BBC-channel")
+    .get("button:nth-child(1)")
+    .click()
 })
