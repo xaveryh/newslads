@@ -79,7 +79,7 @@ const RSSPage = () => {
             <div
               key={channel.url}
               className="flex items-center justify-between border rounded p-4 bg-white shadow-md"
-              id={channel + "-channel"}
+              id={channel.name + "-channel"}
             >
               <div className="flex items-center space-x-4">
                 <img src={channel.logo} alt={`${channel.name} logo`} className="w-10 h-10 object-contain" />
