@@ -45,7 +45,7 @@ export default function ArticlePage() {
       <div className="px-6 md:px-24 lg:px-40 py-8 space-y-6">
         <h1 className="text-3xl font-bold leading-tight mb-4">{article.title}</h1>
 
-        <p className="text-sm text-gray-500 italic">
+        <p className="text-sm text-gray-500 italic" id="author-and-date">
           {article.author || 'Unknown Author'} — {formattedDate}
         </p>
 

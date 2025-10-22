@@ -71,6 +71,7 @@ export default function CategoryPage() {
                 type="date"
                 className="mt-1 block w-40 rounded-md border-gray-300 shadow-sm"
                 value={selectedDate}
+                id="select-date"
                 onChange={(e) => setSelectedDate(e.target.value)}
               />
             </label>
@@ -78,6 +79,7 @@ export default function CategoryPage() {
             <button
               className="bg-black text-white px-6 py-2 rounded-2xl hover:bg-gray-800 mr-2"
               onClick={loadFilteredNews}
+              id="filter-button"
             >
               Apply Filters
             </button>

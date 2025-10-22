@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+
 const API_URL = "https://eventregistry.org/api/v1";
 
 const APP_URL = Cypress.env("CYPRESS_STAGING_APP_URL")
@@ -94,4 +96,46 @@ it("Tries to subscribe to a feed and see the feed", function() {
   cy.get("#navbar-rss-button").click()
   cy.get("#rss-channels div:nth-child(1) > button")
     .click()
+})
+
+it("Filters news from category page", function() {
+  const threeDaysAgo = dayjs().subtract(3, "day").format("YYYY-MM-DD")
+  cy.intercept(`${API_URL}/article/getArticles*`).as("getArticles")
+  cy.intercept({
+    url: `${API_URL}/article/getArticles*`,
+    query: {
+      dateStart: threeDaysAgo,
+      dateEnd: threeDaysAgo
+    }
+  }).as("getArticlesByDate")
+
+
+  const nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
+  
+  cy.visit(APP_URL)
+  
+  cy.get("#sports-button").click()
+  
+  cy.get("#select-date").then(($input) => {
+    const input = $input[0]
+
+    nativeInputValueSetter.call(input, threeDaysAgo)
+
+    input.dispatchEvent(new Event('change', { value: threeDaysAgo, bubbles: true }));
+  })
+
+  
+  cy.get("#filter-button").click()
+  
+  cy.wait("@getArticlesByDate")
+
+  cy.get("#category-articles-container a").should("have.length.greaterThan", 0)
+
+  cy.get("#category-articles-container a:nth-child(1)").click()
+
+  cy.wait("@getArticles")
+
+  cy.get("#author-and-date")
+    .invoke("text")
+    .should("include", threeDaysAgo)
 })
