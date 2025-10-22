@@ -67,9 +67,8 @@ export const fetchNewsByCategory = async ({
     }
 
     if (date) {
-      const formattedDate = new Date(date).toISOString().split('T')[0];
-      params.dateStart = formattedDate;
-      params.dateEnd = formattedDate;
+      params.dateStart = date;
+      params.dateEnd = date;
     }
 
     const data = await callNewsApiAi('article/getArticles', params);

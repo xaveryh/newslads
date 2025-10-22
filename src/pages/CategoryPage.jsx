@@ -16,7 +16,7 @@ export default function CategoryPage() {
   const { categoryName } = useParams();
   const [articles, setArticles] = useState([]);
   const [selectedRegion, setSelectedRegion] = useState(countryOptions[0].uri);
-  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
+  const [selectedDate, setSelectedDate] = useState(new Date().toLocaleDateString('en-CA', { timeZone: 'Australia/Melbourne' }));
   const [isLoading, setIsLoading] = useState(false);
 
   const loadFilteredNews = async () => {
