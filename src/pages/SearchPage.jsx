@@ -40,34 +40,38 @@ export default function SearchPage() {
             </button>
           </form>
 
-          {loading ? (
-            <p>Loading...</p>
-          ) : articles.length === 0 ? (
-            <p>No results found.</p>
-          ) : (
-            <div className="grid gap-6 md:grid-cols-2" id="searched-articles-container">
-              {articles.map((article, index) => (
-                <Link
-                  key={index}
-                  to="/article"
-                  state={{ article }}
-                  className="block bg-white rounded-lg shadow-md hover:shadow-lg transition"
-                >
-                  {article.urlToImage && (
-                    <img
-                      src={article.urlToImage}
-                      alt={article.title}
-                      className="w-full h-40 object-cover"
-                    />
-                  )}
-                  <div className="p-4">
-                    <h3 className="text-base font-bold mb-1 line-clamp-2">{article.title}</h3>
-                    <p className="text-sm text-gray-600 line-clamp-3">{article.description}</p>
+          {loading
+            ? (
+                <p>Loading...</p>
+              )
+            : articles.length === 0
+              ? (
+                  <p>No results found.</p>
+                )
+              : (
+                  <div className="grid gap-6 md:grid-cols-2" id="searched-articles-container">
+                    {articles.map((article, index) => (
+                      <Link
+                        key={index}
+                        to="/article"
+                        state={{ article }}
+                        className="block bg-white rounded-lg shadow-md hover:shadow-lg transition"
+                      >
+                        {article.urlToImage && (
+                          <img
+                            src={article.urlToImage}
+                            alt={article.title}
+                            className="w-full h-40 object-cover"
+                          />
+                        )}
+                        <div className="p-4">
+                          <h3 className="text-base font-bold mb-1 line-clamp-2">{article.title}</h3>
+                          <p className="text-sm text-gray-600 line-clamp-3">{article.description}</p>
+                        </div>
+                      </Link>
+                    ))}
                   </div>
-                </Link>
-              ))}
-            </div>
-          )}
+                )}
         </div>
       </main>
       <FooterSection />

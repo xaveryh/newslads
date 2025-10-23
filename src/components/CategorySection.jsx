@@ -24,7 +24,7 @@ export default function CategorySection() {
         <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4">
           {categories.map(cat => (
             <button
-              id={cat + "-button"}
+              id={`${cat}-button`}
               key={cat}
               type="button"
               onClick={() => handleClick(cat)}

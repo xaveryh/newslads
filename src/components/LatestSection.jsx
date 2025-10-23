@@ -31,8 +31,8 @@ export default function NewsSection() {
         <h2 className="text-2xl font-semibold mb-8" id="latest-headline-heading">Latest Headlines</h2>
 
         <div className="grid gap-6 md:grid-cols-3" id="latest-headlines">
-          {Array.isArray(articles) &&
-            articles
+          {Array.isArray(articles)
+            && articles
               .slice(0, showAll ? articles.length : 3)
               .map((article, index) => (
                 <Link

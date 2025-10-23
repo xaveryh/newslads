@@ -1,12 +1,11 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import './index.css';
-import HomePage from './pages/HomePage';
-import ArticlePage from './pages/ArticlePage';
-import CategoryPage from './pages/CategoryPage';
-import SearchPage from './pages/SearchPage';
-import RSSPage from './pages/RSSPage';
-import RSSFeeds from './pages/RSSFeeds';
+import { Route, Routes } from "react-router-dom";
+import ArticlePage from "./pages/ArticlePage";
+import CategoryPage from "./pages/CategoryPage";
+import HomePage from "./pages/HomePage";
+import RSSFeeds from "./pages/RSSFeeds";
+import RSSPage from "./pages/RSSPage";
+import SearchPage from "./pages/SearchPage";
+import "./index.css";
 
 export default function App() {
   return (
