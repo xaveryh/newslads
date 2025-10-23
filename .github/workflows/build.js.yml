@@ -5,7 +5,7 @@ name: Build and Push Image CD To Staging
 
 on:
   workflow_run:
-    workflows: [Build and Push Image CD To Staging]
+    workflows: [CI]
     branches: [staging]
     types:
       - completed
