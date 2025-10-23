@@ -1,16 +1,9 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import RSSPage from "./RSSPage";
 
 jest.mock("../components/NavBar", () => () => <div data-testid="navbar" />);
 jest.mock("../components/FooterSection", () => () => <div data-testid="footer" />);
-
-const mockFetchRSSFeed = jest.fn();
-jest.mock("../utils/rssClients", () => ({
-  fetchRSSFeed: (...args) => mockFetchRSSFeed(...args),
-}));
-
-const FEED_URL = "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml";
 
 function renderPage() {
   return render(
@@ -20,70 +13,32 @@ function renderPage() {
   );
 }
 
-describe("rSSPage", () => {
-  beforeEach(() => {
-    mockFetchRSSFeed.mockReset();
+describe("rSSPage (channels directory)", () => {
+  it("shows heading and 'View My Feed' link", () => {
+    renderPage();
+    expect(screen.getByRole("heading", { name: /rss channels/i })).toBeInTheDocument();
+    const view = screen.getByRole("link", { name: /view my feed/i });
+    expect(view).toHaveAttribute("href", "/feed");
   });
 
-  it("shows loading then renders feed items", async () => {
-    mockFetchRSSFeed.mockResolvedValueOnce([
-      {
-        title: "Top Headline",
-        link: "https://example.com/top",
-        pubDate: "2025-10-21T10:00:00Z",
-        description: "Plain description text.",
-      },
-      {
-        title: "Second Story",
-        link: "https://example.com/second",
-        pubDate: "2025-10-21T11:00:00Z",
-        description: "<p>With <b>HTML</b> tags</p>",
-      },
-    ]);
-
+  it("renders all predefined channels with Follow buttons", () => {
     renderPage();
 
-    expect(screen.getByText(/loading feed/i)).toBeInTheDocument();
-    expect(mockFetchRSSFeed).toHaveBeenCalledWith(FEED_URL);
+    const channels = [
+      { name: "BBC", url: "http://feeds.bbci.co.uk/news/rss.xml" },
+      { name: "CNN", url: "http://rss.cnn.com/rss/edition.rss" },
+      { name: "NYTimes", url: "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml" },
+      { name: "The Verge", url: "https://www.theverge.com/rss/index.xml" },
+      { name: "Engadget", url: "https://www.engadget.com/rss.xml" },
+      { name: "Wired", url: "https://www.wired.com/feed/rss" },
+      { name: "TechCrunch", url: "http://feeds.feedburner.com/TechCrunch/" },
+      { name: "NPR News", url: "https://feeds.npr.org/1001/rss.xml" },
+    ];
 
-    const firstLink = await screen.findByRole("link", { name: /top headline/i });
-    expect(firstLink).toHaveAttribute("href", "https://example.com/top");
-    expect(screen.getByRole("link", { name: /second story/i })).toHaveAttribute(
-      "href",
-      "https://example.com/second",
-    );
-
-    await waitFor(() => {
-      expect(screen.queryByText(/loading feed/i)).toBeNull();
+    channels.forEach(({ name, url }) => {
+      expect(screen.getByText(name)).toBeInTheDocument();
+      expect(screen.getByText(url)).toBeInTheDocument();
+      expect(screen.getAllByRole("button", { name: /follow/i }).length).toBeGreaterThanOrEqual(1);
     });
-  });
-
-  it("strips HTML and truncates description with ellipsis", async () => {
-    mockFetchRSSFeed.mockResolvedValueOnce([
-      {
-        title: "HTML Story",
-        link: "https://example.com/html",
-        pubDate: "2025-10-21T12:00:00Z",
-        description: "<div>Hello <b>world</b> & more</div>",
-      },
-    ]);
-
-    renderPage();
-
-    await screen.findByRole("link", { name: /html story/i });
-    expect(screen.getByText(/hello world & more\.\.\.$/i)).toBeInTheDocument();
-    expect(screen.queryByText(/<b>world<\/b>/i)).toBeNull();
-  });
-
-  it("keeps 'Loading feed...' when API returns an empty list", async () => {
-    mockFetchRSSFeed.mockResolvedValueOnce([]);
-
-    renderPage();
-
-    await waitFor(() => expect(mockFetchRSSFeed).toHaveBeenCalledWith(FEED_URL));
-
-    expect(screen.getByText(/loading feed/i)).toBeInTheDocument();
-
-    expect(screen.queryByRole("link", { name: /./ })).toBeNull();
   });
 });

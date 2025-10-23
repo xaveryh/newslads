@@ -13,12 +13,12 @@ export default function NavBar() {
           </button>
         </Link>
         <Link to="/search">
-          <button className="bg-black text-white px-6 py-2 rounded-2xl hover:bg-gray-800 mr-2" id="navbar-search-button">
+          <button type="button" className="bg-black text-white px-6 py-2 rounded-2xl hover:bg-gray-800 mr-2" id="navbar-search-button">
             Search
           </button>
         </Link>
         <Link to="/rss">
-          <button className="bg-black text-white px-6 py-2 rounded-2xl hover:bg-gray-800" id="navbar-rss-button">
+          <button type="button" className="bg-black text-white px-6 py-2 rounded-2xl hover:bg-gray-800" id="navbar-rss-button">
             RSS
           </button>
         </Link>

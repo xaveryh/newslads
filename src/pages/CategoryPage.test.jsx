@@ -11,13 +11,9 @@ jest.mock("../utils/newsApi", () => ({
 }));
 
 let mockCategoryName = "technology";
-
 jest.mock("react-router-dom", () => {
   const actual = jest.requireActual("react-router-dom");
-  return {
-    ...actual,
-    useParams: () => ({ categoryName: mockCategoryName }),
-  };
+  return { ...actual, useParams: () => ({ categoryName: mockCategoryName }) };
 });
 
 function renderPage() {
@@ -43,45 +39,44 @@ describe("categoryPage", () => {
 
     renderPage();
 
-    expect(screen.getByRole("heading", { name: /technology news/i })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /technology\s+news/i })).toBeInTheDocument();
 
     expect(await screen.findByRole("link", { name: /tech story one/i })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /tech story one/i })).toHaveAttribute("href", "/article");
     expect(screen.getByRole("link", { name: /tech story two/i })).toHaveAttribute("href", "/article");
 
-    expect(mockFetchNewsByCategory).toHaveBeenCalledWith({
-      category: "technology",
-      country: "us",
-      pageSize: 10,
-    });
+    expect(mockFetchNewsByCategory).toHaveBeenCalledWith(
+      expect.objectContaining({
+        category: "technology",
+        countryUri: expect.stringContaining("wikipedia.org/wiki/"),
+        date: expect.any(String),
+        lang: expect.any(String),
+        count: expect.any(Number),
+      }),
+    );
   });
 
-  it("shows empty state when API returns no articles", async () => {
+  it("shows empty state for no articles", async () => {
     mockFetchNewsByCategory.mockResolvedValueOnce([]);
 
     renderPage();
 
     expect(
-      await screen.findByText(/no news available in this category\./i),
+      await screen.findByText(/no news available for selected filters\./i),
     ).toBeInTheDocument();
   });
 
   it("re-fetches when the category param changes", async () => {
-    mockFetchNewsByCategory.mockResolvedValueOnce([
-      { title: "Tech Story One", description: "desc1" },
-    ]);
+    mockFetchNewsByCategory.mockResolvedValueOnce([{ title: "Tech Story One" }]);
     const { rerender } = render(
       <MemoryRouter initialEntries={[`/category/${mockCategoryName}`]}>
         <CategoryPage />
       </MemoryRouter>,
     );
 
-    expect(await screen.findByRole("link", { name: /tech story one/i })).toBeInTheDocument();
+    await screen.findByRole("link", { name: /tech story one/i });
 
     mockCategoryName = "sports";
-    mockFetchNewsByCategory.mockResolvedValueOnce([
-      { title: "Sports Story A", description: "sdesc" },
-    ]);
+    mockFetchNewsByCategory.mockResolvedValueOnce([{ title: "Sports Story A" }]);
 
     rerender(
       <MemoryRouter initialEntries={[`/category/${mockCategoryName}`]}>
@@ -89,14 +84,17 @@ describe("categoryPage", () => {
       </MemoryRouter>,
     );
 
-    expect(screen.getByRole("heading", { name: /sports news/i })).toBeInTheDocument();
-
+    expect(screen.getByRole("heading", { name: /sports\s+news/i })).toBeInTheDocument();
     expect(await screen.findByRole("link", { name: /sports story a/i })).toBeInTheDocument();
 
-    expect(mockFetchNewsByCategory).toHaveBeenLastCalledWith({
-      category: "sports",
-      country: "us",
-      pageSize: 10,
-    });
+    expect(mockFetchNewsByCategory).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        category: "sports",
+        countryUri: expect.any(String),
+        date: expect.any(String),
+        lang: expect.any(String),
+        count: expect.any(Number),
+      }),
+    );
   });
 });

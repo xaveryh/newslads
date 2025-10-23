@@ -6,32 +6,26 @@ import ArticlePage from "./ArticlePage";
 jest.mock("../components/NavBar", () => () => <div data-testid="navbar" />);
 jest.mock("../components/FooterSection", () => () => <div data-testid="footer" />);
 
-const mockFetchTopHeadline = jest.fn(async () => ({
-  articles: [
-    { title: "A1", description: "desc1", url: "https://a1", urlToImage: "img1.jpg" },
-    { title: "A2", description: "desc2", url: "https://a2" },
-  ],
-}));
+const mockFetchNewsByCategory = jest.fn();
+const mockFetchTopHeadlines = jest.fn();
+
 jest.mock("../utils/newsApi", () => ({
-  fetchTopHeadlines: (...args) => mockFetchTopHeadline(...args),
+  fetchNewsByCategory: (...args) => mockFetchNewsByCategory(...args),
+  fetchTopHeadlines: (...args) => mockFetchTopHeadlines(...args),
 }));
 
 const mockNavigate = jest.fn();
 jest.mock("react-router-dom", () => {
   const actual = jest.requireActual("react-router-dom");
-  return {
-    ...actual,
-    useNavigate: () => mockNavigate,
-  };
+  return { ...actual, useNavigate: () => mockNavigate };
 });
 
 const mockArticle = {
   title: "Main Article",
   author: "Alice",
-  description: "main desc",
   content: "main content",
   url: "https://main",
-  publishedAt: "2025-10-21T10:00:00Z",
+  publishedAt: "2025-10-21",
   urlToImage: "main.jpg",
   category: "tech",
 };
@@ -55,16 +49,21 @@ function renderWithNoArticleState() {
 describe("articlePage", () => {
   beforeEach(() => {
     mockNavigate.mockClear();
-    mockFetchTopHeadline.mockClear();
+    mockFetchNewsByCategory.mockReset();
   });
 
   it("renders main article content", async () => {
+    mockFetchNewsByCategory.mockResolvedValueOnce([
+      { title: "A1", description: "desc1" },
+      { title: "A2", description: "desc2" },
+    ]);
+
     renderWithArticle();
 
     expect(screen.getByTestId("navbar")).toBeInTheDocument();
     expect(screen.getByText(/Main Article/i)).toBeInTheDocument();
     expect(screen.getByText(/Alice/i)).toBeInTheDocument();
-    expect(screen.getByText(/main desc/i)).toBeInTheDocument();
+    expect(screen.getByText(/main content/i)).toBeInTheDocument();
     expect(
       screen.getByRole("link", { name: /read full article on original source/i }),
     ).toHaveAttribute("href", "https://main");
@@ -73,6 +72,11 @@ describe("articlePage", () => {
   });
 
   it("renders related articles and navigates on click", async () => {
+    mockFetchNewsByCategory.mockResolvedValueOnce([
+      { title: "A1", description: "d1" },
+      { title: "A2", description: "d2" },
+    ]);
+
     renderWithArticle();
 
     const related = await screen.findByText("A2");
@@ -87,9 +91,7 @@ describe("articlePage", () => {
 
   it("returns null and redirects when no article is passed", async () => {
     const { container } = renderWithNoArticleState();
-
     await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith("/"));
-
     expect(container.firstChild).toBeNull();
   });
 });

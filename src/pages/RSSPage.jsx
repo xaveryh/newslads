@@ -89,6 +89,7 @@ function RSSPage() {
                 </div>
               </div>
               <button
+                type="button"
                 onClick={() => toggleFollow(channel.url)}
                 className={`px-6 py-2 rounded-2xl text-white transition ${
                   followed.includes(channel.url)
