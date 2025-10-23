@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { fetchNewsByKeyword } from '../utils/newsApi';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { fetchNewsByKeyword } from "../utils/newsApi";
 
 export default function ReadNext() {
   const [articles, setArticles] = useState([]);
@@ -8,10 +8,11 @@ export default function ReadNext() {
   useEffect(() => {
     const loadKeywordNews = async () => {
       try {
-        const data = await fetchNewsByKeyword('apple', 2);
+        const data = await fetchNewsByKeyword("apple", 2);
         setArticles(data);
-      } catch (err) {
-        console.error('Error fetching news:', err);
+      }
+      catch (err) {
+        console.error("Error fetching news:", err);
       }
     };
 

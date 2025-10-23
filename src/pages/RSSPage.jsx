@@ -105,6 +105,6 @@ const RSSPage = () => {
       <Footer />
     </>
   );
-};
+}
 
 export default RSSPage;

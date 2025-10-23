@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { fetchTopHeadlines } from '../utils/newsApi';
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { fetchTopHeadlines } from "../utils/newsApi";
 
 export default function NewsSection() {
   const [articles, setArticles] = useState([]);
@@ -9,14 +9,16 @@ export default function NewsSection() {
   useEffect(() => {
     const loadNews = async () => {
       try {
-        const data = await fetchTopHeadlines({ country: 'us', pageSize: 10 });
+        const data = await fetchTopHeadlines({ country: "us", pageSize: 10 });
         if (Array.isArray(data)) {
           setArticles(data);
-        } else {
-          console.error('Unexpected API response:', data);
         }
-      } catch (err) {
-        console.error('Failed to fetch top headlines:', err);
+        else {
+          console.error("Unexpected API response:", data);
+        }
+      }
+      catch (err) {
+        console.error("Failed to fetch top headlines:", err);
       }
     };
 
@@ -59,9 +61,9 @@ export default function NewsSection() {
             <button
               id="show-more-button"
               className="px-6 py-2 bg-gray-100 hover:bg-gray-200 text-sm rounded-2xl"
-              onClick={() => setShowAll((prev) => !prev)}
+              onClick={() => setShowAll(prev => !prev)}
             >
-              {showAll ? 'Show less' : 'Show more...'}
+              {showAll ? "Show less" : "Show more..."}
             </button>
           </div>
         )}

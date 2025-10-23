@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { fetchNewsBySearch } from '../utils/newsApi';
-import NavBar from '../components/NavBar';
-import FooterSection from '../components/FooterSection';
-import { Link } from 'react-router-dom';
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import FooterSection from "../components/FooterSection";
+import NavBar from "../components/NavBar";
+import { fetchNewsBySearch } from "../utils/newsApi";
 
 export default function SearchPage() {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -18,7 +18,7 @@ export default function SearchPage() {
   };
 
   return (
-    <div className='min-h-screen flex flex-col'>
+    <div className="min-h-screen flex flex-col">
       <NavBar />
       <main className="flex-grow">
         <div className="max-w-3xl mx-auto mt-8">
@@ -27,7 +27,7 @@ export default function SearchPage() {
               type="text"
               placeholder="Search news..."
               value={query}
-              onChange={(e) => setQuery(e.target.value)}
+              onChange={e => setQuery(e.target.value)}
               className="flex-1 px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none"
               id="search-input"
             />

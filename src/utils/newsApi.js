@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 
 export const BASE_URL = 'https://eventregistry.org/api/v1';
 export const NEWS_API_AI_KEY = import.meta.env.VITE_NEWS_API_TOKEN;
@@ -45,7 +45,7 @@ export const fetchTopHeadlines = async ({ keyword = '', lang = 'eng', count = 10
     console.error('Error fetching top headlines:', error);
     return [];
   }
-};
+}
 
 export const fetchNewsByCategory = async ({
   category,
@@ -79,7 +79,7 @@ export const fetchNewsByCategory = async ({
     console.error(`Error fetching ${category} news:`, error);
     return [];
   }
-};
+}
 
 export const fetchNewsByKeyword = async (keyword, count = 5, sortBy = 'date') => {
   try {

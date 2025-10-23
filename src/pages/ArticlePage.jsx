@@ -12,7 +12,7 @@ export default function ArticlePage() {
 
   useEffect(() => {
     if (!article) {
-      navigate('/');
+      navigate("/");
       return;
     }
 
@@ -25,15 +25,17 @@ export default function ArticlePage() {
 
         const filtered = data.filter((a) => a.title !== article.title);
         setRelatedArticles(filtered);
-      } catch (err) {
-        console.error('Failed to load related news:', err);
+      }
+      catch (err) {
+        console.error("Failed to load related news:", err);
       }
     };
 
     loadRelated();
   }, [article, navigate]);
 
-  if (!article) return null;
+  if (!article)
+    return null;
 
   const formattedDate = article.publishedAt
     ? new Date(article.publishedAt).toISOString().split('T')[0]
@@ -85,7 +87,7 @@ export default function ArticlePage() {
               {relatedArticles.map((item, index) => (
                 <div
                   key={index}
-                  onClick={() => navigate('/article', { state: { article: item } })}
+                  onClick={() => navigate("/article", { state: { article: item } })}
                   className="cursor-pointer rounded-lg overflow-hidden shadow hover:shadow-lg transition duration-200"
                 >
                   {item.urlToImage && (

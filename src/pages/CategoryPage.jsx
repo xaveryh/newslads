@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { fetchNewsByCategory } from '../utils/newsApi';
-import NavBar from '../components/NavBar';
-import FooterSection from '../components/FooterSection';
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import FooterSection from "../components/FooterSection";
+
+import NavBar from "../components/NavBar";
+
+import { fetchNewsByCategory } from "../utils/newsApi";
 
 const countryOptions = [
   { label: 'Australia', uri: 'http://en.wikipedia.org/wiki/Australia' },

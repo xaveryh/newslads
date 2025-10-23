@@ -11,7 +11,7 @@ import RSSFeeds from './pages/RSSFeeds';
 export default function App() {
   return (
     <Routes>
-      <Route path='/' element={<HomePage />} />
+      <Route path="/" element={<HomePage />} />
       <Route path="/category/:categoryName" element={<CategoryPage />} />
       <Route path="/article" element={<ArticlePage />} />
       <Route path="/search" element={<SearchPage />} />

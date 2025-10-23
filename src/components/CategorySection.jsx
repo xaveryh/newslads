@@ -1,14 +1,13 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const categories = [
-  'business',
-  'entertainment',
-  'general',
-  'health',
-  'science',
-  'sports',
-  'technology'
+  "business",
+  "entertainment",
+  "general",
+  "health",
+  "science",
+  "sports",
+  "technology",
 ];
 
 export default function CategorySection() {
@@ -23,10 +22,11 @@ export default function CategorySection() {
       <div className="max-w-7xl mx-auto">
         <h2 className="text-2xl font-semibold mb-8">Browse by Category</h2>
         <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4">
-          {categories.map((cat) => (
+          {categories.map(cat => (
             <button
               id={cat + "-button"}
               key={cat}
+              type="button"
               onClick={() => handleClick(cat)}
               className="bg-blue-100 hover:bg-blue-200 text-blue-900 font-medium py-3 px-5 rounded-lg transition"
             >
