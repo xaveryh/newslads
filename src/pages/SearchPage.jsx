@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { fetchNewsBySearch } from '../utils/newsApi';
-import NavBar from '../components/NavBar';
-import FooterSection from '../components/FooterSection';
-import { Link } from 'react-router-dom';
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import FooterSection from "../components/FooterSection";
+import NavBar from "../components/NavBar";
+import { fetchNewsBySearch } from "../utils/newsApi";
 
 export default function SearchPage() {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -18,7 +18,7 @@ export default function SearchPage() {
   };
 
   return (
-    <div className='min-h-screen flex flex-col'>
+    <div className="min-h-screen flex flex-col">
       <NavBar />
       <main className="flex-grow">
         <div className="max-w-3xl mx-auto mt-8">
@@ -27,7 +27,7 @@ export default function SearchPage() {
               type="text"
               placeholder="Search news..."
               value={query}
-              onChange={(e) => setQuery(e.target.value)}
+              onChange={e => setQuery(e.target.value)}
               className="flex-1 px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none"
               id="search-input"
             />
@@ -40,34 +40,38 @@ export default function SearchPage() {
             </button>
           </form>
 
-          {loading ? (
-            <p>Loading...</p>
-          ) : articles.length === 0 ? (
-            <p>No results found.</p>
-          ) : (
-            <div className="grid gap-6 md:grid-cols-2" id="searched-articles-container">
-              {articles.map((article, index) => (
-                <Link
-                  key={index}
-                  to="/article"
-                  state={{ article }}
-                  className="block bg-white rounded-lg shadow-md hover:shadow-lg transition"
-                >
-                  {article.urlToImage && (
-                    <img
-                      src={article.urlToImage}
-                      alt={article.title}
-                      className="w-full h-40 object-cover"
-                    />
-                  )}
-                  <div className="p-4">
-                    <h3 className="text-base font-bold mb-1 line-clamp-2">{article.title}</h3>
-                    <p className="text-sm text-gray-600 line-clamp-3">{article.description}</p>
+          {loading
+            ? (
+                <p>Loading...</p>
+              )
+            : articles.length === 0
+              ? (
+                  <p>No results found.</p>
+                )
+              : (
+                  <div className="grid gap-6 md:grid-cols-2" id="searched-articles-container">
+                    {articles.map((article, index) => (
+                      <Link
+                        key={index}
+                        to="/article"
+                        state={{ article }}
+                        className="block bg-white rounded-lg shadow-md hover:shadow-lg transition"
+                      >
+                        {article.urlToImage && (
+                          <img
+                            src={article.urlToImage}
+                            alt={article.title}
+                            className="w-full h-40 object-cover"
+                          />
+                        )}
+                        <div className="p-4">
+                          <h3 className="text-base font-bold mb-1 line-clamp-2">{article.title}</h3>
+                          <p className="text-sm text-gray-600 line-clamp-3">{article.description}</p>
+                        </div>
+                      </Link>
+                    ))}
                   </div>
-                </Link>
-              ))}
-            </div>
-          )}
+                )}
         </div>
       </main>
       <FooterSection />
